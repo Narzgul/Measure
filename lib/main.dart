@@ -81,18 +81,20 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'Angle of you phone:',
+              style: Theme.of(context).textTheme.headline5,
             ),
             Text(
-              "Gyro: $degValue",
+              "$degValue °",
               style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
-        onPressed: () {  },
-        child: Icon(Icons.add),
+        tooltip: 'Reset',
+        onPressed: () { radValue = 0; },
+        child: Icon(Icons.exposure_zero),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
