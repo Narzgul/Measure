@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:sensors/sensors.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,9 +40,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  double radValue = 0;
+  double degValue = 0;
   double gyroValue = -1;
-  late StreamSubscription gyroSub;
+  Timer? radUpdate;
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -80,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Angle of you phone:',
             ),
             Text(
-              "Gyro: $gyroValue",
+              "Gyro: $degValue",
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
@@ -98,16 +101,20 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    gyroSub = gyroscopeEvents.listen((event) {
+    gyroscopeEvents.listen((GyroscopeEvent event) {
+      gyroValue = event.x;
+    });
+    radUpdate = Timer.periodic(Duration(milliseconds: 100), (timer) {
       setState(() {
-        gyroValue = event.y;
+        radValue = radValue + gyroValue / 10;
+        degValue = radValue * (180 / pi);
       });
     });
   }
 
   @override
   void dispose() {
+    radUpdate?.cancel();
     super.dispose();
-    gyroSub.cancel();
   }
 }
