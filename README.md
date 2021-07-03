@@ -1,6 +1,6 @@
 # measure
 
-A app to measure stuff
+An app to measure stuff
 
 ## Getting Started
 
