@@ -41,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double radValue = 0;
+  double degValue = 0;
   double gyroValue = -1;
   Timer? radUpdate;
 
@@ -82,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Angle of you phone:',
             ),
             Text(
-              "Gyro: $radValue",
+              "Gyro: $degValue",
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
@@ -104,8 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
       gyroValue = event.x;
     });
     radUpdate = Timer.periodic(Duration(milliseconds: 100), (timer) {
-      radValue = radValue + gyroValue / 10;
-      print(radValue * (180 / pi));
+      setState(() {
+        radValue = radValue + gyroValue / 10;
+        degValue = radValue * (180 / pi);
+      });
     });
   }
 
